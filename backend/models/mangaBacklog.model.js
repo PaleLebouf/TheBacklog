@@ -4,6 +4,13 @@ const Schema = mongoose.Schema;
 
 const mangaBacklogSchema = new Schema({
 
+    key_id: {
+        type: String,
+        unique: true,
+        trim: true,
+        minlength: 1,
+    },
+    
     user_id: {
         type: String,
         required: true,
@@ -40,6 +47,6 @@ const mangaBacklogSchema = new Schema({
     }
 });
 
-const MangaBacklog = mongoose.model('User', mangaBacklogSchema);
+const MangaBacklog = mongoose.model('MangaBacklog', mangaBacklogSchema);
 
 module.exports = MangaBacklog;

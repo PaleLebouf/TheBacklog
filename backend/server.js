@@ -22,11 +22,17 @@ const userRouter = require('./routes/user');
 const showRouter = require('./routes/show');
 const mangaRouter = require('./routes/manga');
 const gameRouter = require('./routes/game');
+const showBacklogRouter = require('./routes/showBacklog');
+const mangaBacklogRouter = require('./routes/mangaBacklog');
+const gameBacklogRouter = require('./routes/gameBacklog');
 
 app.use('/user', userRouter);
 app.use('/show', showRouter);
 app.use('/manga', mangaRouter);
 app.use('/game', gameRouter);
+app.use('/showbacklog', showBacklogRouter);
+app.use('/mangabacklog', mangaBacklogRouter);
+app.use('/gamebacklog', gameBacklogRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

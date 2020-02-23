@@ -4,6 +4,13 @@ const Schema = mongoose.Schema;
 
 const showBacklogSchema = new Schema({
 
+    key_id: {
+        type: String,
+        unique: true,
+        trim: true,
+        minlength: 1,
+    },
+    
     user_id: {
         type: String,
         required: true,
@@ -40,6 +47,6 @@ const showBacklogSchema = new Schema({
     }
 });
 
-const ShowBacklog = mongoose.model('User', showBacklogSchema);
+const ShowBacklog = mongoose.model('ShowBacklog', showBacklogSchema);
 
 module.exports = ShowBacklog;

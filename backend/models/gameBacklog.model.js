@@ -4,17 +4,25 @@ const Schema = mongoose.Schema;
 
 const gameBacklogSchema = new Schema({
 
-    user_id: {
+    key_id: {
         type: String,
-        required: true,
         unique: true,
         trim: true,
         minlength: 1,
     },
 
+    user_id: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 1,
+    },
+
     game_id: {
-        type: Number,
-        required: false,
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 1,
     },
 
     progress: {
@@ -40,6 +48,6 @@ const gameBacklogSchema = new Schema({
     }
 });
 
-const GameBacklog = mongoose.model('User', gameBacklogSchema);
+const GameBacklog = mongoose.model('GameBacklog', gameBacklogSchema);
 
 module.exports = GameBacklog;
