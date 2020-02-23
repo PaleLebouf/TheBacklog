@@ -75,33 +75,49 @@ export default class EditShow extends Component {
     })
   }
 
-  onChangeDate(date) {
-    this.setState({
-      date: date
-    })
-  }
-
   onSubmit(e) {
     e.preventDefault();
 
-    const exercise = {
-      username: this.state.username,
-      description: this.state.description,
-      duration: this.state.duration,
-      date: this.state.date
+    const show = {
+      name: this.state.name,
+      total_episodes: this.state.total_episodes,
+      created_by: this.state.created_by
     }
 
-    console.log(exercise);
+    console.log(show);
 
-    axios.post('http://localhost:5000/exercises/update/' + this.props.match.params.id, exercise)
+    axios.post('http://localhost:5000/show/update/' + this.props.match.params.id, show)
       .then(res => console.log(res.data));
 
-    window.location = '/';
   }
 
   render() {
     return (
-    <div>
+        <form className={this.classes.root} noValidate autoComplete="off" onSubmit={this.onSubmit}>
+
+        <TextField id="Show Name" label="Show Name" value={this.state.name}
+                onChange={this.onChangeName} />
+        <br/>   
+
+        <TextField id="Total Episodes" label="Total Episodes" value={this.state.total_episodes}
+                onChange={this.onChangeTotalEpisodes} />
+        <br/>
+
+        <TextField id="Created By" label="Created By" value={this.state.created_by}
+                onChange={this.onChangeCreatedBy} />
+        <br/>
+
+        <Button type="submit" variant="contained" color="primary" onClick={this.onSubmit}>
+            Submit
+        </Button>
+
+        </form>
+    )
+  }
+}
+
+/*
+<div>
       <h3>Edit Exercise Log</h3>
       <form onSubmit={this.onSubmit}>
         <div className="form-group"> 
@@ -154,6 +170,4 @@ export default class EditShow extends Component {
         </div>
       </form>
     </div>
-    )
-  }
-}
+    */
