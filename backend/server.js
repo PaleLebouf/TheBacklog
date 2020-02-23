@@ -20,9 +20,13 @@ connection.once('open', () => {
 
 const userRouter = require('./routes/user');
 const showRouter = require('./routes/show');
+const mangaRouter = require('./routes/manga');
+const gameRouter = require('./routes/game');
 
 app.use('/user', userRouter);
 app.use('/show', showRouter);
+app.use('/manga', mangaRouter);
+app.use('/game', gameRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

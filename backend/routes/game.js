@@ -1,32 +1,49 @@
-const mongoose = require('mongoose');
+const router = require('express').Router();
+const Game = require('../models/game.model')
 
-const Schema = mongoose.Schema;
-
-const gameSchema = new Schema({
-
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        minlength: 1,
-    },
-
-    total_length: {
-        type: Number,
-        required: false,
-    },
-
-    created_by_id: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 3,
-    }
-}, {
-    timestamps: true,
+router.route('/').get((req, res) => {
+    Game.find()
+    .then(games => res.json(games))
+    .catch(err => res.json("Error: " + err))
 });
 
-const Game = mongoose.model('User', gameSchema);
+router.route('/add').post((req, res) => {
+    const newGame = new Game({
+        name: req.body.name,
+        total_length: req.body.total_length,
+        created_by: req.body.created_by,
+    })
 
-module.exports = Game;
+    newGame.save()
+        .then(() => res.json("Game added!"))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').get((req, res) => {
+    Game.findById(req.params.id)
+    .then(game => res.json(game))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').delete((req, res) => {
+    Game.findById(req.params.id)
+    .then(() => res.json("Game deleted."))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/update/:id').post((req, res) => {
+    Game.findById(req.params.id)
+    .then(game => {
+        game.name = req.body.name;
+        game.total_length = req.body.total_length;
+        game.created_by = req.body.created_by;
+
+        game.save()
+            .then(() => res.json("Game updated!"))
+            .catch(err => res.status(400).json("Error: " + err));
+
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+module.exports = router;

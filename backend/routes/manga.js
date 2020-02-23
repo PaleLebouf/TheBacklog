@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const Manga = require('../models/manga.model')
+const Manga = require('../models/manga.model');
 
 router.route('/').get((req, res) => {
     Manga.find()
-    .then(manga => res.json(manga))
+    .then(mangas => res.json(mangas))
     .catch(err => res.json("Error: " + err))
 });
 
@@ -46,4 +46,4 @@ router.route('/update/:id').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-module.exports = router; 
+module.exports = router;

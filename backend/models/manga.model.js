@@ -27,6 +27,6 @@ const mangaSchema = new Schema({
     timestamps: true,
 });
 
-const Manga = mongoose.model('Game', mangaSchema);
+const Manga = mongoose.model('Manga', mangaSchema);
 
 module.exports = Manga;

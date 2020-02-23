@@ -5,24 +5,24 @@ router.route('/').get((req, res) => {
     User.find()
       .then(users => res.json(users))
       .catch(err => res.status(400).json('Error: ' + err));
-  });
+});
   
-  router.route('/register').post((req, res) => {
-    let name = '';
-    if( req.body.name !== null) name = req.body.name;
-    
-    const newUser = new User({
-        username: req.body.username,
-        password: req.body.password,
-        name: name,
-    });
-  
-    newUser.save()
-      .then(() => res.json('User added!'))
-      .catch(err => res.status(400).json('Error: ' + err));
-  });
+router.route('/register').post((req, res) => {
+let name = '';
+if( req.body.name !== null) name = req.body.name;
 
-  router.route('/login').post((req, res) => {
+const newUser = new User({
+    username: req.body.username,
+    password: req.body.password,
+    name: name,
+});
+
+newUser.save()
+    .then(() => res.json('User added!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/login').post((req, res) => {
     User.findOne({username: req.body.username})
         .then((user) => {
             user.comparePassword(req.body.password, (err, isMatch) => {
@@ -32,6 +32,6 @@ router.route('/').get((req, res) => {
             })
         })
         .catch(err => res.status(400).json('Error: ' + err));
-  });
-  
-  module.exports = router;
+});
+
+module.exports = router;
