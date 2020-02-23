@@ -1,32 +1,49 @@
-const mongoose = require('mongoose');
+const router = require('express').Router();
+const Manga = require('../models/manga.model')
 
-const Schema = mongoose.Schema;
-
-const mangaSchema = new Schema({
-
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        minlength: 1,
-    },
-
-    total_chapters: {
-        type: Number,
-        required: false,
-    },
-
-    created_by_id: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 3,
-    }
-}, {
-    timestamps: true,
+router.route('/').get((req, res) => {
+    Manga.find()
+    .then(manga => res.json(manga))
+    .catch(err => res.json("Error: " + err))
 });
 
-const Manga = mongoose.model('User', mangaSchema);
+router.route('/add').post((req, res) => {
+    const newManga = new Manga({
+        name: req.body.name,
+        total_chapters: req.body.total_chapters,
+        created_by: req.body.created_by,
+    })
 
-module.exports = Manga;
+    newManga.save()
+        .then(() => res.json("Manga added!"))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').get((req, res) => {
+    Manga.findById(req.params.id)
+    .then(manga => res.json(manga))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').delete((req, res) => {
+    Manga.findById(req.params.id)
+    .then(() => res.json("Manga deleted."))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/update/:id').post((req, res) => {
+    Manga.findById(req.params.id)
+    .then(manga => {
+        manga.name = req.body.name;
+        manga.total_chapters = req.body.total_chapters;
+        manga.created_by = req.body.created_by;
+
+        manga.save()
+            .then(() => res.json("Manga updated!"))
+            .catch(err => res.status(400).json("Error: " + err));
+
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+module.exports = router; 
