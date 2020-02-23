@@ -6,6 +6,12 @@ router.route('/').get((req, res) => {
       .then(users => res.json(users))
       .catch(err => res.status(400).json('Error: ' + err));
 });
+
+router.route('/:username').get((req, res) =>{
+    User.find({username: req.params.username})
+        .then(user => res.json(user._id))
+        .catch(err => res.status(400).json(err));
+});
   
 router.route('/register').post((req, res) => {
 let name = '';

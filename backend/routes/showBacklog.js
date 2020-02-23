@@ -32,7 +32,7 @@ router.route('/:userid/:gameid').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/userBacklog/:userid').get((req, res) => {
+router.route('/:userid').get((req, res) => {
     ShowBacklog.find({
         user_id: req.params.userid,
     })

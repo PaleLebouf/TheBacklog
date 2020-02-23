@@ -2,7 +2,7 @@ const router = require('express').Router();
 const GameBacklog = require('../models/gameBacklog.model');
 
 router.route('/').get((req, res) => {
-    GameBacklog.find()
+    GameBacklog.find({user_id: "5e51eaf49cd2261c1c4c7e7c"})
     .then(gameBacklogs => res.json(gameBacklogs))
     .catch(err => res.json("Error: " + err))
 });
@@ -32,12 +32,10 @@ router.route('/:userid/:gameid').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/userBacklog/:userid').get((req, res) => {
-    GameBacklog.find({
-        user_id: req.params.userid,
-    })
-    .then(gameBacklog => res.json(gameBacklog))
-    .catch(err => res.status(400).json('Error: ' + err));
+router.route('/:userid').get((req, res) => {
+    GameBacklog.find({user_id: req.params.userid})
+    .then(gameBacklogs => res.json(gameBacklogs))
+    .catch(err => res.json("Error: " + err))
 });
 
 router.route('/:userid/:gameid').delete((req, res) => {
